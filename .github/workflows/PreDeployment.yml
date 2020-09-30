@@ -1,12 +1,13 @@
 name: Pre-Deployment Check
 
-on:
+on: 
+  pull_request:
+    types: [created]
   push:
-    branches:
-      - master
-
+    branches: master
+    
 jobs:
-  codeql-analysis:
+  code-analysis:
     name: codeql-analysis
     runs-on: ubuntu-latest
     strategy:
@@ -44,22 +45,10 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
   
+    - name: Snyk
+      uses: snyk/actions@0.3.0
+      
   test-arm-template:
-    if: contains(github.event.push.ref, './templates')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@master
-        
-      - name: Test ARM Templates - path
-        id: pathtest
-        uses: aliencube/arm-ttk-actions@v0.3
-        with:
-          path: ./templates/*
-  
-  validate-arm-template:
-    if: contains(github.event.push.ref, './templates')
-    needs: test-arm-template
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
