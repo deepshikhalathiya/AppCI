@@ -2,7 +2,7 @@ name: Pre-Deployment Check
 
 on: 
   pull_request:
-    types: [created]
+    types: [opened]
   push:
     branches: master
     
