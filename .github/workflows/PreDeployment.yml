@@ -1,10 +1,10 @@
 name: Pre-Deployment Check
 
 on: 
-  pull_request:
-    types: [created]
   push:
     branches: master
+  pull_request:
+    types: [opened]
     
 jobs:
   code-analysis:
