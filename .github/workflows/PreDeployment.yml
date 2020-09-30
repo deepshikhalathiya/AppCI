@@ -1,7 +1,7 @@
 name: Pre-Deployment Check
 
 env:
-  TEMPLATE: './templates/mainTemplate.json'
+  TEMPLATE: './templates'
 
 on: 
   pull_request:
@@ -17,8 +17,15 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2.3.3
         
-      - name: Test ARM Templates - path
-        id: pathtest
-        uses: aliencube/arm-ttk-actions@v0.3
+#       - name: Test ARM Templates
+#         id: pathtest
+#         uses: aliencube/arm-ttk-actions@v0.3
+#         with:
+#           path: ${{env.TEMPLATE}}
+
+      - name: Test ARM Templates
+        uses: venura9/arm-ttk@1.0
         with:
-          path: ${{env.TEMPLATE}}
+          # Path to run the tests on
+          path:  ${{env.TEMPLATE}} 
+      
