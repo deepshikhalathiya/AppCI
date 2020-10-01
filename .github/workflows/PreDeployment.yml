@@ -17,18 +17,28 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2.3.3
         
-      - name: Test ARM Templates
-        id: pathtest
-        uses: aliencube/arm-ttk-actions@v0.3
-        with:
-          path: ./templates
+#       - name: Test ARM Templates
+#         id: pathtest
+#         uses: aliencube/arm-ttk-actions@v0.3
+#         with:
+#           path: ./templates
 
-      - name: Test result - path
-        shell: bash
-        continue-on-error: false
-        run: |
-          echo "${{ toJSON(fromJSON(steps.pathtest.outputs.results)) }}"
+#       - name: Test result - path
+#         shell: bash
+#         continue-on-error: false
+#         run: |
+#           echo "${{ toJSON(fromJSON(steps.pathtest.outputs.results)) }}"
           
+      - name: Run ARM-TTK with 'path'
+        uses: venura9/arm-ttk@master
+        id: path-test
+        with: 
+          path: ./templates
+        
+      - name: Results for Run ARM-TTK with 'path'
+        run: |
+          content=${{ steps.path-test.outputs.results }}
+          echo "Results $content"
 #       - name: Test ARM Templates
 #         uses: venura9/arm-ttk@1.0
 #         with:
