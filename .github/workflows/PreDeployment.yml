@@ -33,7 +33,8 @@ jobs:
         uses: venura9/arm-ttk@master
         id: path-test
         with: 
-          path: ./templates
+          path: './templates'
+          file: mainTemplate.json
         
       - name: Results for Run ARM-TTK with 'path'
         run: |
