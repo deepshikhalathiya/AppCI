@@ -25,6 +25,6 @@ jobs:
 
       - name: Test result - path
         shell: bash
-        continue-on-error: false
+        continue-on-error: true
         run: |
-          echo ${{fromJSON(steps.pathtest.outputs.results)}}
+         echo "${{ toJSON(fromJSON(steps.pathtest.outputs.results)) }}"
