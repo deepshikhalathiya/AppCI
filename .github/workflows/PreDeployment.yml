@@ -23,6 +23,12 @@ jobs:
         with:
           path: ./templates
 
+      - name: Test result - path
+        shell: bash
+        continue-on-error: false
+        run: |
+          echo "${{ toJSON(fromJSON(steps.pathtest.outputs.results)) }}"
+          
 #       - name: Test ARM Templates
 #         uses: venura9/arm-ttk@1.0
 #         with:
