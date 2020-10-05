@@ -6,7 +6,7 @@ name: Pre-Deployment Check
 on: 
   pull_request:
     types: [opened]
-    paths: './templates'
+    paths: './templates/*'
 #   push:
 #     branches: master
 
