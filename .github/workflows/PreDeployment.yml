@@ -13,11 +13,29 @@ on:
       - ".github/workflows/PreDeployment.yml"
     
 jobs:
-  security:
+#   security:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@master
+#     - name: Run Snyk to check for vulnerabilities
+#       uses: snyk/actions/dotnet@master
+#       env:
+#         SNYK_TOKEN: eb0f42c4-3fa2-4c51-9141-f43cc613d0c6
+
+  test-arm-template:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/dotnet@master
-      env:
-        SNYK_TOKEN: eb0f42c4-3fa2-4c51-9141-f43cc613d0c6
+      - name: Checkout source code
+        uses: actions/checkout@v2.3.3
+        
+      - name: Run Test ARM Templates
+        id: pathtest
+        uses: aliencube/arm-ttk-actions@v0.3
+        with:
+          path: ./templates
+
+      - name: Test ARM Results
+        shell: bash
+        continue-on-error: false
+        run: |
+          echo ${{steps.pathtest.outputs.results}}
