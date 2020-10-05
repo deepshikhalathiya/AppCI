@@ -9,7 +9,8 @@ on:
 
   push:
     branches: master
-    paths: './github/workflows/PreDeployment.yml'
+    paths: 
+      - ".github/workflows/PreDeployment.yml"
     
 jobs:
   security:
