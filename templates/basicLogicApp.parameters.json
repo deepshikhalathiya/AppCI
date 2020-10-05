@@ -3,7 +3,7 @@
    "contentVersion": "1.0.0.0",
    "parameters": {
       "LogicAppName": {
-         "value": "BasicLogicApp"
+         "value": "BasicLogicApp2"
       },
       "LogicAppLocation": {
       "value": "centralus"
