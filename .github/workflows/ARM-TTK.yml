@@ -22,7 +22,6 @@ jobs:
             
        - name: Test ARM Results
          shell: bash
-         continue-on-error: true
+         continue-on-error: false
          run: |
            echo ${{steps.pathtest.outputs.results}}
-
