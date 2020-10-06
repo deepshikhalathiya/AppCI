@@ -38,7 +38,7 @@ jobs:
       id: filter
       with:
         filters: |
-          template:
+          templates:
             - 'templates/**'
           src:
             - 'src/**'
