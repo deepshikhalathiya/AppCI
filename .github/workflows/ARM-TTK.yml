@@ -19,8 +19,8 @@ jobs:
          uses: aliencube/arm-ttk-actions@v0.3
          with:
             path: ./templates #${{ needs.changes.outputs.templates_files}}
-            files: mainTemplate.json,basicLogicApps.json
-
+            files: basicLogicApps.json,mainTemplate.json
+            
        - name: Test ARM Results
          shell: bash
          continue-on-error: false
