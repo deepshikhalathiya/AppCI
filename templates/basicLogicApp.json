@@ -19,7 +19,7 @@
     "resources": [
         {
             "type": "Microsoft.Logic/workflows",
-            "apiVersion": "2017-07-01",
+            "apiVersion": "2019-05-01",
             "name":  "[parameters('LogicAppName')]",
             "location": "[parameters('LogicAppLocation')]",
             "properties": {
@@ -33,14 +33,12 @@
                             "type": "Request",
                             "kind": "Http",
                             "inputs": {
-                                "method": "GET",
-                                "schema": {}
+                                "method": "GET"
                             }
                         }
                     },
                     "actions": {
                         "Response": {
-                            "runAfter": {},
                             "type": "Response",
                             "kind": "Http",
                             "inputs": {
