@@ -76,7 +76,7 @@ jobs:
         uses: aliencube/arm-ttk-actions@v0.3
         with:
           path: ./templates #${{ needs.changes.outputs.templates_files}}
-          files: .templates/mainTemplate.json , ./template/basicLogicApps.json
+
           
       - name: Test ARM Results
         shell: bash
