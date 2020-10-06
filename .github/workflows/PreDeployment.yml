@@ -27,8 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      backend: ${{ steps.filter.outputs.templates }}
-      frontend: ${{ steps.filter.outputs.src }}
+      templates : ${{ steps.filter.outputs.templates }}
+      src: ${{ steps.filter.outputs.src }}
     steps:
     # For pull requests it's not necessary to checkout the code
     - name: Checkout source code
