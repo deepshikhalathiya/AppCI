@@ -18,7 +18,7 @@ jobs:
          uses: aliencube/arm-ttk-actions@v0.3
          with:
             path: ./templates
-            files: mainTemplate.json
+            files: baiscLogicApp.json
             
        - name: Test result - path
          shell: bash
