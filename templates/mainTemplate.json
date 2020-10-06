@@ -5,7 +5,7 @@
     "serviceBusNamespaceName": {
       "type": "string",
       "metadata": {
-        "description": "Name of the Service Bus namespace "
+        "description": "Name of the Service Bus namespace. "
       }
     },
     "serviceBusTopicName": {
