@@ -6,11 +6,12 @@ name: Pre-Deployment Check
 on: 
   pull_request:
     types: [opened]
-
+    
   push:
     branches: master
     paths: 
-      - ".github/workflows/PreDeployment.yml"
+      #- ".github/workflows/PreDeployment.yml"
+      - "templates/**"
     
 jobs:
 #   security:
@@ -21,8 +22,27 @@ jobs:
 #       uses: snyk/actions/dotnet@master
 #       env:
 #         SNYK_TOKEN: eb0f42c4-3fa2-4c51-9141-f43cc613d0c6
-
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      backend: ${{ steps.filter.outputs.templates }}
+      frontend: ${{ steps.filter.outputs.src }}
+    steps:
+    # For pull requests it's not necessary to checkout the code
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          template:
+            - 'templates/**'
+          src:
+            - 'src/**'
+              
   test-arm-template:
+    needs: changes
+    if: ${{ needs.changes.outputs.templates == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
