@@ -95,7 +95,7 @@ jobs:
     needs: changes
     # Run test-arm-template job only if changes are there in templates path
     if: ${{ needs.changes.outputs.templates == 'true' }}
-    runs-on: ubuntu-latetest-arm-templatest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2.3.3
