@@ -3,5 +3,14 @@ name: "CodeQL config"
 paths:
   - src 
 
+languages: csharp
+
+disable-default-queries: true
+
 queries:
-  - uses: .github/codeql/FutileCoditional.ql
+  - name: Extended Security
+    uses: security-extended
+  - name: Security and Quality
+    uses: security-and-quality
+  - name: codeql repo
+    uses: github/codeql/csharp/ql/src/codeql-suites/csharp-code-scanning.qls@v1.25.0 
