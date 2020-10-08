@@ -2,3 +2,6 @@ name: "CodeQL config"
 
 paths:
   - src 
+
+queries:
+  - uses: ./.github/codeql/FutileCoditional.ql
