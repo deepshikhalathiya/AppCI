@@ -20,6 +20,7 @@ namespace Company.Function
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
+            
              if (name.Length > 10) ; // BAD
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
