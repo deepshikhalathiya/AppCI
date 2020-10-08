@@ -22,7 +22,6 @@ namespace Company.Function
             string name = req.Query["name"];
         
              if (11 > 10) ; // BAD
-            
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
