@@ -4,4 +4,4 @@ paths:
   - src 
 
 queries:
-  - uses: ./.github/codeql/FutileCoditional.ql
+  - uses: .github/codeql/FutileCoditional.ql
