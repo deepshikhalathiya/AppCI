@@ -12,6 +12,7 @@ on:
     paths: 
       #- ".github/workflows/PreDeployment.yml"
       - "templates/**"
+      - "src/**"
     
 jobs:
 
