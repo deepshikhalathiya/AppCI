@@ -11,7 +11,7 @@
     "serviceBusTopicName": {
       "type": "string",
       "metadata": {
-        "description": "Name of the Topic"
+        "description": "Name of the Topic "
       }
     },
     "serviceBusSubscriptionName": {
