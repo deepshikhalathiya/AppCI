@@ -9,8 +9,9 @@
          }
       },
       "LogicAppLocation": {
-        "type": "string",   
-         "metadata": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
             "description": "The resource location for the logic app"
          }
       }
@@ -44,7 +45,7 @@
                             "type": "Response",
                             "kind": "Http",
                             "inputs": {
-                                "body": "Response from BasicLogicApp",
+                                "body": "Response from [parameters('LogicAppName')]",
                                 "statusCode": 200
                             }
                         }
