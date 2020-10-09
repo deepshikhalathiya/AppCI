@@ -1,8 +1,9 @@
 name: Pre-Deployment Check
 
-# env:
-#   TEMPLATE: './templates/mainTemplate.json'
-
+env: 
+  TEMPLATE_PATH: ./templates
+  TEMPLATE_FILE: mainTemplate.json
+  
 on: 
   pull_request:
     types: [opened, edited, reopened]
@@ -107,8 +108,9 @@ jobs:
         
         uses: aliencube/arm-ttk-actions@v0.3
         with:
-          path: ./templates #${{ needs.changes.outputs.templates_files}}
-              
+          path: ${{env.TEMPLATE_PATH}}
+          files: ${{env.TEMPLATE_FILE}}
+          
       - name: Test ARM Results
         shell: bash
         continue-on-error: false
