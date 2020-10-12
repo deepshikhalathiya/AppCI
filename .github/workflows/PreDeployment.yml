@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
        MAIN_TEMPLATE_PATH:: ${{ steps.AppConfig.outputs.MAIN_TEMPLATE_PATH}}
-       MAIN_TEMPLATE_FILE: ${{ steps.AppConfig.outputs.APP_NAME }}
+       MAIN_TEMPLATE_FILE: ${{ steps.AppConfig.outputs.MAIN_TEMPLATE_FILE }}
        templates : ${{ steps.filter.outputs.templates }}
        src: ${{ steps.filter.outputs.src }}
        templates_files: ${{ steps.filter.outputs.templates_files }}
@@ -40,7 +40,7 @@ jobs:
               templates:
                 - POC/templates/**
               src:
-                - ${{ env.SOURCE_PATH }}
+                - POC/src/**
         
       - name: Changed template files
         shell: bash
@@ -63,6 +63,8 @@ jobs:
         run: |
          echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_PATH}}
          echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_FILE}}
+         echo ${{ env.SOURCE_PATH }}
+         echo ${{ env.TEMPLATE_PATH }}
 
 #  # JOB to run codeql scan for code analysis
   codeql-analysis:
@@ -99,7 +101,7 @@ jobs:
   test-arm-template:
     needs: GetAppConfig
     # Run test-arm-template job only if changes are there in templates path
-    if: ${{ needs.GetEnv.outputs.templates == 'true' }}
+    if: ${{ needs.GetAppConfig.outputs.templates == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
