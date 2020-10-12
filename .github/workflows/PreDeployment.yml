@@ -31,8 +31,10 @@ jobs:
               echo "Text read from file: $line"            
               echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
+          echo ${{env.MAIN_TEMPLATE_PATH}}
+          echo ${{env.MAIN_TEMPLATE_FILE}}
           echo "::set-output name=MAIN_TEMPLATE_PATH::${{env.MAIN_TEMPLATE_PATH}}"
-          echo "::set-output name=MAIN_TEMPLATE_PATH::${{env.MAIN_TEMPLATE_FILE}}"
+          echo "::set-output name=MAIN_TEMPLATE_FILE::${{env.MAIN_TEMPLATE_FILE}}"
       
       - uses: dorny/paths-filter@v2
         id: filter  
@@ -40,12 +42,8 @@ jobs:
             list-files: json
             filters: |
               templates:
-                - POC/templates/**
-              templates1:
                 - ${{env.TEMPLATE_PATH}}
               src:
-                - POC/src/**
-              src1: 
                - ${{env.SOURCE_PATH}}
         
       - name: Changed template files
@@ -65,12 +63,9 @@ jobs:
       - uses: actions/checkout@v2.3.3
 
       - name: PrintEnvVars
-        id: AppEnv
         run: |
          echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_PATH}}
          echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_FILE}}
-         echo ${{ env.SOURCE_PATH }}
-         echo ${{ env.TEMPLATE_PATH }}
 
 #  # JOB to run codeql scan for code analysis
   codeql-analysis:
