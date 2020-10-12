@@ -2,6 +2,7 @@ name: Pre-Deployment Check
 
 env: 
   ENV_FILE: ./POC/deployment.config
+  APP_NAME: POC
     
 on: 
   pull_request:
@@ -115,7 +116,7 @@ jobs:
         
         uses: aliencube/arm-ttk-actions@v0.3
         with:
-          path: ./${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_PATH}}
+          path: ./${{env.APP_NAME}}/templates
           files: ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_FILE}}
           
       - name: Test ARM Results
