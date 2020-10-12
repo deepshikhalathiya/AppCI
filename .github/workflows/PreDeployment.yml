@@ -21,7 +21,6 @@ on:
     
 jobs:
   GetEnvFile:
-    name: GetEnv
     runs-on: ubuntu-latest
 #     outputs:
 #       templates : ${{ steps.filter.outputs.templates }}
@@ -37,9 +36,9 @@ jobs:
               echo ::set-env name=$line
           done < ${{env.ENV_FILE}}
         
-      - name: GetEnvValues
-        run: |
-          echo ${{env.APP_NAME}}
+#       - name: GetEnvValues
+#         run: |
+#           echo ${{env.APP_NAME}}
           
 # JOB to run change detection
 #   changes:
