@@ -3,7 +3,10 @@ name: Pre-Deployment Check
 env: 
   TEMPLATE_PATH: ./templates
   TEMPLATE_FILE: mainTemplate.json
-  
+  UPDATED_TEMPLATE_PATH: "templates/**"
+  UPDATED_SOURCE_PATH: "src/**"
+  APPLICATION_PATH: "App1"
+    
 on: 
   pull_request:
     types: [opened, edited, reopened]
@@ -12,19 +15,10 @@ on:
     branches: master
     paths: 
       #- ".github/workflows/PreDeployment.yml"
-      - "templates/**"
-      - "src/**"
+      - ${{env.UPDATED_TEMPLATE_PATH}
+      - ${{env.UPDATED_SOURCE_PATH}
     
 jobs:
-
-#   security:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@master
-#     - name: Run Snyk to check for vulnerabilities
-#       uses: snyk/actions/dotnet@master
-#       env:
-#         SNYK_TOKEN: eb0f42c4-3fa2-4c51-9141-f43cc613d0c6
 
 # JOB to run change detection
   changes:
@@ -48,9 +42,9 @@ jobs:
         list-files: json
         filters: |
           templates:
-            - 'templates/**'
+            - ${{env.UPDATED_TEMPLATE_PATH}
           src:
-            - 'src/**'
+            - ${{env.UPDATED_SOURCE_PATH}
  
     - name: Changed template files
       shell: bash
