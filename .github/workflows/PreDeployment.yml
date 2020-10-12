@@ -18,3 +18,10 @@ jobs:
               echo "Text read from file: $line"
               echo ::set-env name=$line
           done < ${{env.ENV_FILE}}
+  ShowEnvVars:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.3
+      - run: |
+         echo ${{env.ENV_FILE}}
+         echo ${{env.APP_NAME}}
