@@ -14,7 +14,7 @@ on:
   push:
     branches: master
     paths: 
-      #- ".github/workflows/PreDeployment.yml"
+      - ".github/workflows/PreDeployment.yml"
       - ${{env.UPDATED_TEMPLATE_PATH}
       - ${{env.UPDATED_SOURCE_PATH}
     
