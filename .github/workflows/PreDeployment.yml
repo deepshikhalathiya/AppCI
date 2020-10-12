@@ -45,7 +45,7 @@ jobs:
               templates:
                 - ${{ steps.AppConfig.output.TEMPLATE_PATH }}
               src:
-                - ${{env.SOURCE_PATH}}
+                - ${{ steps.AppConfig.output.SOURCE_PATH }}
         
       - name: Changed template files
         shell: bash
