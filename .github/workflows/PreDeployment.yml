@@ -18,9 +18,10 @@ jobs:
               echo "Text read from file: $line"
               echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
-         echo ${{env.ENV_FILE}}
-         echo ${{env.APP_NAME}}
-          
+          echo "ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
+          echo ${{env.ENV_FILE}}
+          echo ${{env.APP_NAME}}
+          echo ${{env.ENVIRONMENT_NAME}}
   ShowEnvVars:
     needs: GetEnvFile
     runs-on: ubuntu-latest
