@@ -31,6 +31,8 @@ jobs:
               echo "Text read from file: $line"            
               echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
+          echo "::set-output name=MAIN_TEMPLATE_PATH::${{env.MAIN_TEMPLATE_PATH}}"
+          echo "::set-output name=MAIN_TEMPLATE_PATH::${{env.MAIN_TEMPLATE_FILE}}"
       
       - uses: dorny/paths-filter@v2
         id: filter  
@@ -39,8 +41,12 @@ jobs:
             filters: |
               templates:
                 - POC/templates/**
+              templates1:
+                - ${{env.TEMPLATE_PATH}}
               src:
                 - POC/src/**
+              src1: 
+               - ${{env.SOURCE_PATH}}
         
       - name: Changed template files
         shell: bash
