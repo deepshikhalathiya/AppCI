@@ -1,7 +1,7 @@
 name: Pre-Deployment Check
 
 env: 
-  ENV_FILE: ./POC/config.env
+  ENV_FILE: ./POC/deployment.config
     
 on: 
   pull_request:
@@ -9,8 +9,6 @@ on:
     
   push:
     branches: [master, development]
-    paths: 
-      - ".github/workflows/PreDeployment.yml"
     
 jobs:
   GetAppConfig:
