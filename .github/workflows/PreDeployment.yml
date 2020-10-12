@@ -36,7 +36,16 @@ jobs:
               echo "Text read from file: $line"            
               echo "::set-output name=$line"
           done < ${{env.ENV_FILE}}
+ 
         
+      - name: PrintEnvVars
+        run: |
+         echo ${{ steps.AppConfig.outputs.APP_NAME}}
+         echo ${{ steps.AppConfig.outputs.ENVIRONMENT_NAME}}
+         echo ${{ steps.AppConfig.outputs.TEMPLATE_PATH}}
+         echo ${{ steps.AppConfig.outputs.SOURCE_PATH}}
+         echo ${{ steps.AppConfig.outputs.MAIN_TEMPLATE_PATH}}
+      
       - uses: dorny/paths-filter@v2
         id: filter  
         with:
