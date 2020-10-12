@@ -18,6 +18,7 @@ jobs:
               echo "Text read from file: $line"
               echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
+          
   ShowEnvVars:
     needs: GetEnvFile
     runs-on: ubuntu-latest
