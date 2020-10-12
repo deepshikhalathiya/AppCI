@@ -1,7 +1,7 @@
 name: Pre-Deployment Check
 
 env: 
-  ENV_FILE: ./POC/deployment.config
+  ENV_FILE: ./POC/config.env
     
 on: 
   pull_request:
@@ -16,11 +16,8 @@ jobs:
   GetAppConfig:
     runs-on: ubuntu-latest
     outputs:
-       ENVIRONMENT_NAME: ${{ steps.AppConfig.outputs.ENVIRONMENT_NAME }}
-       SOURCE_PATH:: ${{ steps.AppConfig.outputs.SOURCE_PATH}}
-       TEMPLATE_PATH:: ${{ steps.AppConfig.outputs.TEMPLATE_PATH}}
        MAIN_TEMPLATE_PATH:: ${{ steps.AppConfig.outputs.MAIN_TEMPLATE_PATH}}
-       APP_NAME: ${{ steps.AppConfig.outputs.APP_NAME }}
+       MAIN_TEMPLATE_FILE: ${{ steps.AppConfig.outputs.APP_NAME }}
        templates : ${{ steps.filter.outputs.templates }}
        src: ${{ steps.filter.outputs.src }}
        templates_files: ${{ steps.filter.outputs.templates_files }}
@@ -34,17 +31,8 @@ jobs:
         run: |
          while vars= read -r line; do
               echo "Text read from file: $line"            
-              echo "::set-output name=$line"
+              echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
- 
-        
-      - name: PrintEnvVars
-        run: |
-         echo ${{ steps.AppConfig.outputs.APP_NAME}}
-         echo ${{ steps.AppConfig.outputs.ENVIRONMENT_NAME}}
-         echo ${{ steps.AppConfig.outputs.TEMPLATE_PATH}}
-         echo ${{ steps.AppConfig.outputs.SOURCE_PATH}}
-         echo ${{ steps.AppConfig.outputs.MAIN_TEMPLATE_PATH}}
       
       - uses: dorny/paths-filter@v2
         id: filter  
@@ -52,9 +40,9 @@ jobs:
             list-files: json
             filters: |
               templates:
-                - ${{ steps.AppConfig.output.TEMPLATE_PATH }}
+                - ${{ env.TEMPLATE_PATH }}
               src:
-                - ${{ steps.AppConfig.output.SOURCE_PATH }}
+                - ${{ env.SOURCE_PATH }}
         
       - name: Changed template files
         shell: bash
@@ -75,11 +63,8 @@ jobs:
       - name: PrintEnvVars
         id: AppEnv
         run: |
-         echo ${{ needs.GetAppConfig.outputs.APP_NAME}}
-         echo ${{ needs.GetAppConfig.outputs.ENVIRONMENT_NAME}}
-         echo ${{ needs.GetAppConfig.outputs.TEMPLATE_PATH}}
-         echo ${{ needs.GetAppConfig.outputs.SOURCE_PATH}}
          echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_PATH}}
+         echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_FILE}}
 
 #  # JOB to run codeql scan for code analysis
   codeql-analysis:
@@ -128,7 +113,7 @@ jobs:
         uses: aliencube/arm-ttk-actions@v0.3
         with:
           path: ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_PATH}}
-          files: ${{ needs.GetAppConfig.outputs.TEMPLATE_FILE}}
+          files: ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_FILE}}
           
       - name: Test ARM Results
         shell: bash
