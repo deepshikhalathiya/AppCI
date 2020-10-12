@@ -105,7 +105,7 @@ jobs:
   test-arm-template:
     needs: GetAppConfig
     # Run test-arm-template job only if changes are there in templates path
-    if: ${{ needs.GetAppConfig.outputs.templates == 'true' }}
+  #  if: ${{ needs.GetAppConfig.outputs.templates == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
