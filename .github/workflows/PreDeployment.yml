@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
        ENVIRONMENT_NAME: ${{ steps.AppEnv.outputs.ENVIRONMENT_NAME }}
+       TEMPLATE_PATH:: ${{ steps.AppEnv.outputs.TEMPLATE_PATH}}
        APP_NAME: ${{ steps.AppEnv.outputs.APP_NAME }}
     steps:
       - uses: actions/checkout@v2.3.3
@@ -42,7 +43,8 @@ jobs:
           echo 'ENV_FILE :' ${{env.ENV_FILE}}
           echo 'APP_NAME :' ${{env.APP_NAME}}
           echo "::set-output name=APP_NAME::${{env.APP_NAME}}"
-          echo "::set-output name=ENVIRONMENT_NAME:: ${{env.APP_NAME}}/templates/${{env.ENVIRONMENT_NAME}}"
+          echo "::set-output name=ENVIRONMENT_NAME::${{env.ENVIRONMENT_NAME}}"
+          echo "::set-output name=TEMPLATE_PATH::./${{env.APP_NAME}}/templates"
         
   CheckEnv:
     needs: GetEnv
@@ -54,6 +56,7 @@ jobs:
         id: AppEnv
         run: |
          echo ${{ needs.GetEnv.outputs.APP_NAME}}
+          echo ${{ needs.GetEnv.outputs.ENVIRONMENT_NAME}
          echo ${{ needs.GetEnv.outputs.TEMPLATE_PATH}}
  
 # JOB to run change detection
