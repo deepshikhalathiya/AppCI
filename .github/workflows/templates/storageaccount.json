@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string"
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_ZRS"        
+      ]
+    },
+    "containerName": {
+      "type": "string"
+    }
+
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('storageAccountName')]",
+      "apiVersion": "2019-06-01",
+      "location": "[resourceGroup().location]",
+       "sku": {
+        "tier": "Standard",
+        "name": "Standard_RAGRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "allowBlobPublicAccess": false,
+         "supportsHttpsTrafficOnly": true,
+        "accountType": "[parameters('storageAccountType')]"
+      }
+    },
+    {
+       "type": "Microsoft.Storage/storageAccounts/blobServices",
+       "apiVersion": "2019-06-01",
+       "name": "[concat(parameters('storageAccountName'), '/default')]",
+        "dependsOn": [
+             "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+          ],
+          "properties": {
+                "denyEncryptionScopeOverride": false,
+                "publicAccess": "Container"
+            }
+    },
+    {
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+        "apiVersion": "2019-04-01",
+        "name": "[concat(parameters('storageAccountName'), '/default/container1')]",
+        "dependsOn": [
+	    "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]"
+        ],
+        "properties": {
+            "publicAccess": "Container"
+        }
+    }
+  ],
+	"outputs": {
+		"storageAccountInfo": {
+			"value": "[reference(concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName')),providers('Microsoft.Storage', 'storageAccounts').apiVersions[0])]",
+			"type" : "object"
+		}
+	}
+}
