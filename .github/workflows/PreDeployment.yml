@@ -22,6 +22,12 @@ jobs:
           echo ${{env.ENV_FILE}}
           echo ${{env.APP_NAME}}
           echo ${{env.ENVIRONMENT_NAME}}
+          
+      - name: Check Env
+        run: |
+          echo 'ENVIRONMENT_NAME :' ${{env.ENVIRONMENT_NAME}} 
+          echo 'ENV_FILE :' ${{env.ENV_FILE}}
+          echo 'APP_NAME :' ${{env.APP_NAME}}
   ShowEnvVars:
     needs: GetEnvFile
     runs-on: ubuntu-latest
