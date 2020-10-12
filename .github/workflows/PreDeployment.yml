@@ -56,7 +56,7 @@ jobs:
         id: AppEnv
         run: |
          echo ${{ needs.GetEnv.outputs.APP_NAME}}
-          echo ${{ needs.GetEnv.outputs.ENVIRONMENT_NAME}
+         echo ${{ needs.GetEnv.outputs.ENVIRONMENT_NAME}
          echo ${{ needs.GetEnv.outputs.TEMPLATE_PATH}}
  
 # JOB to run change detection
