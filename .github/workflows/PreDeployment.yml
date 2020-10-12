@@ -17,4 +17,4 @@ jobs:
          while vars= read -r line; do
               echo "Text read from file: $line"
               echo ::set-env name=$line
-          done < ${{env.ENV_FILE}
+          done < ${{env.ENV_FILE}}
