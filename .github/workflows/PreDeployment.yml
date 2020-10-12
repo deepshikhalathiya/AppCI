@@ -38,7 +38,7 @@ jobs:
             list-files: json
             filters: |
               templates:
-                - ${{ env.TEMPLATE_PATH }}
+                - POC/templates/**
               src:
                 - ${{ env.SOURCE_PATH }}
         
