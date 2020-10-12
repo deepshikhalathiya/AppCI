@@ -8,7 +8,7 @@ on:
     types: [opened, edited, reopened]
     
   push:
-    branches: master
+    branches: [master, development]
     paths: 
       - ".github/workflows/PreDeployment.yml"
     
