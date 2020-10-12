@@ -25,12 +25,15 @@ jobs:
       - uses: actions/checkout@v2.3.3
       
       - name: Get App Config
-        id: AppConfig
         run: |
          while vars= read -r line; do
               echo "Text read from file: $line"            
               echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
+          
+      - name: Set outputs
+        id: AppConfig
+        run: |
           echo ${{env.MAIN_TEMPLATE_PATH}}
           echo ${{env.MAIN_TEMPLATE_FILE}}
           echo "::set-output name=MAIN_TEMPLATE_PATH::${{env.MAIN_TEMPLATE_PATH}}"
