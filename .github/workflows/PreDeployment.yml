@@ -34,7 +34,7 @@ jobs:
       - name: Set outputs
         id: AppConfig
         run: |
-          echo "::set-output name=MAIN_TEMPLATE_PATH::${{env.MAIN_TEMPLATE_PATH}}"
+          echo "::set-output name=MAIN_TEMPLATE_PATH::'${{env.MAIN_TEMPLATE_PATH}}'"
           echo "::set-output name=MAIN_TEMPLATE_FILE::${{env.MAIN_TEMPLATE_FILE}}"
       
       - uses: dorny/paths-filter@v2
