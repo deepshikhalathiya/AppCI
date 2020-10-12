@@ -2,37 +2,146 @@ name: Pre-Deployment Check
 
 env: 
   ENV_FILE: ./POC/config.env 
-
-on:    
+  TEMPLATE_PATH: ./templates
+  TEMPLATE_FILE: mainTemplate.json
+  UPDATED_TEMPLATE_PATH: "templates/**"
+  UPDATED_SOURCE_PATH: "src/**"
+  APPLICATION_PATH: "App1"
+    
+on: 
+  pull_request:
+    types: [opened, edited, reopened]
+    
   push:
+    branches: master
     paths: 
       - ".github/workflows/PreDeployment.yml"
     
 jobs:
-  GetEnvFile:
+  GetEnv:
     runs-on: ubuntu-latest
+    outputs:
+       ENVIRONMENT_NAME: ${{ steps.AppEnv.outputs.ENVIRONMENT_NAME }}
+       APP_NAME: ${{ steps.AppEnv.outputs.APP_NAME }}
     steps:
       - uses: actions/checkout@v2.3.3
-      - run: |
+
+      - name: SetEnvVars
+        id: AppEnv
+        run: |
          while vars= read -r line; do
               echo "Text read from file: $line"
               echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
           echo "ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
-          echo ${{env.ENV_FILE}}
-          echo ${{env.APP_NAME}}
-          echo ${{env.ENVIRONMENT_NAME}}
           
       - name: Check Env
         run: |
           echo 'ENVIRONMENT_NAME :' ${{env.ENVIRONMENT_NAME}} 
           echo 'ENV_FILE :' ${{env.ENV_FILE}}
           echo 'APP_NAME :' ${{env.APP_NAME}}
-  ShowEnvVars:
-    needs: GetEnvFile
+          echo "::set-output name=APP_NAME::${{env.APP_NAME}}"
+          echo "::set-output name=ENVIRONMENT_NAME::${{env.ENVIRONMENT_NAME}}"
+        
+  CheckEnv:
+    needs: GetEnv
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.3
-      - run: |
-         echo ${{env.ENV_FILE}}
-         echo ${{env.APP_NAME}}
+
+      - name: PrintEnvVars
+        id: AppEnv
+        run: |
+         echo ${{ needs.GetEnv.outputs.APP_NAME}}
+         echo ${{ needs.GetEnv.outputs.ENVIRONMENT_NAME}}
+ 
+# JOB to run change detection
+#   changes:
+#     name: Identify Changes
+#     needs: GetEnv
+#     runs-on: ubuntu-latest
+#     # Set job outputs to values from filter step
+#     outputs:
+#       templates : ${{ steps.filter.outputs.templates }}
+#       src: ${{ steps.filter.outputs.src }}
+#       templates_files: ${{ steps.filter.outputs.templates_files }}
+#       src_files: ${{ steps.filter.outputs.src_files}}
+#     steps:
+#     # For pull requests it's not necessary to checkout the code
+#     - name: Checkout source code
+#       uses: actions/checkout@v2.3.3
+      
+#     - uses: dorny/paths-filter@v2
+#       id: filter  
+#       with:
+#         list-files: json
+#         filters: |
+#           templates:
+#             -  ${{ needs.changes.outputs.APP_NAME}}
+#           src:
+#             - ${{env.UPDATED_SOURCE_PATH}
+ 
+#     - name: Changed template files
+#       shell: bash
+#       run: |
+#           echo ${{ steps.filter.output.templates_files }}
+          
+#     - name: Changed src files
+#       shell: bash
+#       run: |
+#           echo ${{ steps.filter.outputs.src_files }}
+
+#  # JOB to run codeql scan for code analysis
+#   codeql-analysis:
+#     name: codeql-analysis
+#     needs: changes
+#     # Run code-analysis job only if changes are there in src path
+#     if: ${{ needs.changes.outputs.src == 'true' }}
+#     runs-on: ubuntu-latest
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         language: [csharp]
+#     steps:
+#     - name: Checkout repository
+#       uses: actions/checkout@v2.3.3
+#       with:
+#         fetch-depth: 2
+#     - run: git checkout HEAD^2
+#       if: ${{ github.event_name == 'pull_request' }}
+              
+#     # Initializes the CodeQL tools for scanning.
+#     - name: Initialize CodeQL
+#       uses: github/codeql-action/init@v1
+#       with:
+#         languages: ${{ matrix.language }}
+
+#     - name: Autobuild
+#       uses: github/codeql-action/autobuild@v1
+
+#     - name: Perform CodeQL Analysis
+#       uses: github/codeql-action/analyze@v1
+      
+#  # JOB to run ARM Test Toolkit for arm templates
+#   test-arm-template:
+#     needs: changes
+#     # Run test-arm-template job only if changes are there in templates path
+#     if: ${{ needs.changes.outputs.templates == 'true' }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout source code
+#         uses: actions/checkout@v2.3.3
+        
+#       - name: Run Test ARM Templates
+#         id: pathtest
+        
+#         uses: aliencube/arm-ttk-actions@v0.3
+#         with:
+#           path: ${{env.TEMPLATE_PATH}}
+#           files: ${{env.TEMPLATE_FILE}}
+          
+#       - name: Test ARM Results
+#         shell: bash
+#         continue-on-error: false
+#         run: |
+#           echo ${{steps.pathtest.outputs.results}}
