@@ -30,7 +30,7 @@ jobs:
          while vars= read -r line; do
               echo "Text read from file: $line"            
               echo  $line >> $GITHUB_ENV
-          done < ${{env.ENV_FILE}}
+          done < ${{env.APP_NAME}}/deployment.config
           
       - name: Set outputs
         id: AppConfig
