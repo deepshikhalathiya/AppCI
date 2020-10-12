@@ -15,25 +15,22 @@ on:
 jobs:
 
 #  # JOB to run ARM Test Toolkit for arm templates
-#   test-arm-template:
-#     needs: changes
-#     # Run test-arm-template job only if changes are there in templates path
-#     if: ${{ needs.changes.outputs.templates == 'true' }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout source code
-#         uses: actions/checkout@v2.3.3
+  test-arm-template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2.3.3
         
-#       - name: Run Test ARM Templates
-#         id: pathtest
+      - name: Run Test ARM Templates
+        id: pathtest
         
-#         uses: aliencube/arm-ttk-actions@v0.3
-#         with:
-#           path: ${{env.TEMPLATE_PATH}}
-#           files: ${{env.TEMPLATE_FILE}}
+        uses: aliencube/arm-ttk-actions@v0.3
+        with:
+          path: ${{env.TEMPLATE_PATH}}
+          files: ${{env.TEMPLATE_FILE}}
           
-#       - name: Test ARM Results
-#         shell: bash
-#         continue-on-error: false
-#         run: |
-#           echo ${{steps.pathtest.outputs.results}}
+      - name: Test ARM Results
+        shell: bash
+        continue-on-error: false
+        run: |
+          echo ${{steps.pathtest.outputs.results}}
