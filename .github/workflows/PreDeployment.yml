@@ -15,7 +15,7 @@ jobs:
   GetAppConfig:
     runs-on: ubuntu-latest
     outputs:
-       MAIN_TEMPLATE_PATH:: ${{ steps.AppConfig.outputs.MAIN_TEMPLATE_PATH}}
+       APP_NAME:: ${{ steps.AppConfig.outputs.APP_NAME}}
        MAIN_TEMPLATE_FILE: ${{ steps.AppConfig.outputs.MAIN_TEMPLATE_FILE }}
        templates : ${{ steps.filter.outputs.templates }}
        src: ${{ steps.filter.outputs.src }}
@@ -35,7 +35,7 @@ jobs:
       - name: Set outputs
         id: AppConfig
         run: |
-          echo "::set-output name=MAIN_TEMPLATE_PATH::'${{env.MAIN_TEMPLATE_PATH}}'"
+          echo "::set-output name=APP_NAME::'${{env.APP_NAME}}'"
           echo "::set-output name=MAIN_TEMPLATE_FILE::${{env.MAIN_TEMPLATE_FILE}}"
       
       - uses: dorny/paths-filter@v2
@@ -67,7 +67,7 @@ jobs:
 
       - name: PrintEnvVars
         run: |
-         echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_PATH}}
+         echo ${{ needs.GetAppConfig.outputs.APP_NAME}}
          echo ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_FILE}}
 
 #  # JOB to run codeql scan for code analysis
@@ -116,7 +116,7 @@ jobs:
         
         uses: aliencube/arm-ttk-actions@v0.3
         with:
-          path: ./${{env.APP_NAME}}/templates
+          path: ./${{ needs.GetAppConfig.outputs.APP_NAME}}/templates
           files: ${{ needs.GetAppConfig.outputs.MAIN_TEMPLATE_FILE}}
           
       - name: Test ARM Results
