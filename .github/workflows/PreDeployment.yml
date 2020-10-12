@@ -33,7 +33,7 @@ jobs:
               echo  $line >> $GITHUB_ENV
           done < ${{env.ENV_FILE}}
           echo "ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
-          echo "TEMPLATE_PATH=./${{env.APP_NAME}}/templates" >> $GITHUB_ENV
+         
           
       - name: Check Env
         id: AppEnv
@@ -42,7 +42,7 @@ jobs:
           echo 'ENV_FILE :' ${{env.ENV_FILE}}
           echo 'APP_NAME :' ${{env.APP_NAME}}
           echo "::set-output name=APP_NAME::${{env.APP_NAME}}"
-          echo "::set-output name=TEMPLATE_PATH::${{env.TEMPLATE_PATH}}"
+          echo "::set-output name=ENVIRONMENT_NAME:: ${{env.APP_NAME}}/templates/${{env.ENVIRONMENT_NAME}}"
         
   CheckEnv:
     needs: GetEnv
