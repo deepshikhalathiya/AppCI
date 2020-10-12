@@ -1,0 +1,110 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+       "storageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Storage account name"
+            }
+        },
+        "containerName": {
+            "type": "string",
+            "metadata": {
+                "description": "Container name"
+            }
+        },
+        "storageAccountType": {
+            "type": "string",
+            "metadata": {
+                "description": "Storage Account Type"
+            }
+        },
+       "integration_account_name": {
+           "type": "string",
+            "metadata": {
+                "description": "Integration Account Name"
+            }
+        },
+       "workflows_name": {
+           "type": "string",
+           "metadata": {
+                "description": "Workflows Name"
+            }
+        },
+        "skuName": {
+          "type": "string",
+          "metadata": {
+                "description": "Sku Name"
+            }
+       },
+      "workflowState": {
+           "type": "string",
+           "metadata": {
+                "description": "Workflow state"
+            }
+       },
+       "location": {
+           "type": "string",
+            "metadata": {
+                "description": "location"
+            }
+       }
+    },
+    "variables": {},
+    "resources": [
+     {
+            "apiVersion": "2015-01-01",
+            "type": "Microsoft.Resources/deployments",
+            "name": "storage",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/amruta125/storageccount/main/storageaccount.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
+                    },
+                    "containerName":{
+                         "value": "[parameters('containerName')]"
+                    },
+                     "storageAccountType": {
+                         "value": "[parameters('storageAccountType')]"
+                    }
+                }
+            }
+        },   
+        {
+            "apiVersion": "2015-01-01",
+            "type": "Microsoft.Resources/deployments",
+            "name": "LogicAppIntegrationAccount",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/amruta125/storageccount/main/logicappintegrationacc.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "integration_account_name": {
+                         "value": "[parameters('integration_account_name')]"
+                    },
+                    "workflows_name": {
+                         "value": "[parameters('workflows_name')]"
+                    },
+                    "workflowState": {
+                        "value": "[parameters('workflowState')]"
+                    },
+                    "skuName": {
+                        "value": "[parameters('skuName')]"
+                    },
+                   "location": {
+                        "value": "[parameters('location')]"
+                     }
+                }
+           }
+        }
+
+      ]
+    }
