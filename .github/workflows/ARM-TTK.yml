@@ -5,6 +5,7 @@ on:
     branches: master
     paths: 
       - ".github/workflows/ARM-TTK.yml"
+      
 jobs:
    # JOB to run ARM Test Toolkit for arm templates
   test-arm-template-1:
