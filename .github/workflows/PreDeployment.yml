@@ -34,8 +34,6 @@ jobs:
       - name: Set outputs
         id: AppConfig
         run: |
-          echo ${{env.MAIN_TEMPLATE_PATH}}
-          echo ${{env.MAIN_TEMPLATE_FILE}}
           echo "::set-output name=MAIN_TEMPLATE_PATH::${{env.MAIN_TEMPLATE_PATH}}"
           echo "::set-output name=MAIN_TEMPLATE_FILE::${{env.MAIN_TEMPLATE_FILE}}"
       
@@ -45,7 +43,7 @@ jobs:
             list-files: json
             filters: |
               templates:
-                - ${{env.TEMPLATE_PATH}}
+               - ${{env.TEMPLATE_PATH}}
               src:
                - ${{env.SOURCE_PATH}}
         
@@ -58,6 +56,7 @@ jobs:
         shell: bash
         run: |
             echo ${{ steps.filter.outputs.src_files }}
+            echo ${{ steps.GetAppConfig.outputs.MAIN_TEMPLATE_PATH}}
   
   CheckEnv:
     needs: GetAppConfig
