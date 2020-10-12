@@ -60,7 +60,7 @@
             "properties": {
                 "mode": "incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/amruta125/storageccount/main/storageaccount.json",
+                    "uri": ".github/workflows/templates/storageaccount.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -83,7 +83,7 @@
             "properties": {
                 "mode": "incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/amruta125/storageccount/main/logicappintegrationacc.json",
+                    "uri": ".github/workflows/templates/logicappintegrationacc.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
